@@ -12,6 +12,24 @@ class Phonebook extends Component {
     filter: '',
   };
 
+  componentDidMount () {
+    const phonebook = JSON.parse(localStorage.getItem('phonebook'));
+    if(phonebook?.length) {
+      this.setState({
+      phonebook, 
+    })
+    }
+    
+  }
+
+  componentDidUpdate (_, prevState) {
+    const {phonebook} = this.state;
+    if(prevState.phonebook !== phonebook){
+      localStorage.setItem('phonebook', JSON.stringify(phonebook));
+    }
+    
+  }
+
   addContact = data => {
     if (this.isDublicate(data)) {
       return alert(`${data.name} - ${data.number} is alredy in contacts.`);
